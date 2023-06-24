@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  trips-backend:
+    image: trips-backend:v1
+    container_name: trips-backend
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    env_file: .env
+    depends_on:
+      - mongodb
+    restart: always
+    networks:
+      - trips_backend
+
+  mongodb:
+    image: mongo:4.2.21-bionic
+    container_name: mongodb
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    ports:
+      - 27017:27017
+    restart: always
+    volumes:
+      - mongodb:/data
+    networks:
+      - trips_backend
+
+volumes:
+  mongodb:
+    driver: local
+
+networks:
+  trips_backend:
