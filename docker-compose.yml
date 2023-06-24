@@ -1,9 +1,9 @@
 version: "3.7"
 
 services:
-  trips-backend:
-    image: trips-backend:v1
-    container_name: trips-backend
+  trips-api:
+    image: trips-api:v1
+    container_name: trips-api
     build:
       context: ./
       dockerfile: Dockerfile
@@ -11,8 +11,12 @@ services:
     depends_on:
       - mongodb
     restart: always
+    expose:
+      - 5000
+    ports:
+      - '5000:5000'
     networks:
-      - trips_backend
+      - trips_api
 
   mongodb:
     image: mongo:4.2.21-bionic
@@ -26,11 +30,11 @@ services:
     volumes:
       - mongodb:/data
     networks:
-      - trips_backend
+      - trips_api
 
 volumes:
   mongodb:
     driver: local
 
 networks:
-  trips_backend:
+  trips_api:

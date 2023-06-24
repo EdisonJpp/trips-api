@@ -1,4 +1,5 @@
-import { IsNumber, ValidateNested, ArrayNotEmpty, ArrayMinSize, IsNotEmpty, IsNotEmptyObject } from 'class-validator'
+import { Type } from 'class-transformer'
+import { IsNumber, ValidateNested, ArrayNotEmpty, ArrayMinSize, IsNotEmpty } from 'class-validator'
 
 export class BoundingBoxDto {
   @IsNumber()
@@ -24,14 +25,15 @@ export class ReadingDto {
   speedLimit?: number
 
   @IsNotEmpty()
-  @IsNotEmptyObject()
-  // @ValidateNested()
+  @ValidateNested()
+  @Type(() => BoundingBoxDto)
   location?: BoundingBoxDto
 }
 
 export class CreateTripDto {
   @ArrayNotEmpty()
   @ArrayMinSize(5)
-  // @ValidateNested({ each: true })
+  @ValidateNested({ each: true })
+  @Type(() => ReadingDto)
   readings?: ReadingDto[]
 }

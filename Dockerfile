@@ -26,8 +26,11 @@ ARG NODE_VERSION
 ARG ALPINE_VERSION
 FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} as release
 
+ENV PORT 5000
 
 COPY --from=build /app/dist ./src
 COPY --from=deps /app/node_modules ./node_modules
 
-CMD ["node", "src/main.js"]
+EXPOSE ${PORT}
+
+CMD ["node", "src/app.js"]

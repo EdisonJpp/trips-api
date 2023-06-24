@@ -28,10 +28,11 @@ export function validationMiddleware<T>(
 
     const object = plainToInstance(type, data)
     const errors = await validate(object, { skipMissingProperties })
-    console.log(errors, 'ssss')
+
     if (errors.length > 0) {
-      const errorMessages = errors.map((error: ValidationError) => Object.values(error.constraints || {})).flat()
-      res.status(400).json({ error: errorMessages.length > 0 ? errorMessages : errors })
+      console.log(errors, 'edispn')
+      const errorMessages = extractNestedValidationErrors(errors)
+      res.status(400).json({ error: errorMessages })
     } else {
       switch (target) {
         case ValidationTarget.BODY:
@@ -46,4 +47,21 @@ export function validationMiddleware<T>(
       next()
     }
   }
+}
+
+function extractNestedValidationErrors(errors: ValidationError[]): string[] {
+  const nestedErrors: string[] = []
+
+  for (const error of errors) {
+    if (error.children && error.children.length > 0) {
+      nestedErrors.push(...extractNestedValidationErrors(error.children))
+    }
+
+    if (error.constraints) {
+      const errorMessages = Object.values(error.constraints)
+      nestedErrors.push(...errorMessages)
+    }
+  }
+
+  return nestedErrors
 }

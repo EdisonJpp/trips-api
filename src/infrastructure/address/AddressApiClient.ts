@@ -18,7 +18,6 @@ export class AddressApiClient extends HttpClient implements IAddressApiClient {
     const { data } = await this.httpClient.get<{
       results: IAddressDto[]
     }>(`/maps/api/geocode/json?latlng=${lat},${lon}&key=${config.google_api_key}`)
-    console.log(data, 'edison')
     return data.results[0]
   }
 }

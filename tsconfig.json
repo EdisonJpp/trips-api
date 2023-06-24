@@ -16,6 +16,6 @@
       "@/presentation/*": ["src/presentation/*"],
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "tests/**/*"],
   "exclude": ["node_modules"]
 }
