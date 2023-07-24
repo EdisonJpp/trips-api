@@ -37,11 +37,6 @@ Repositorio: <https://github.com/EdisonJpp/trips-api>
 
 
 
-**NOTA:** Me faltaron varios tests, solo que no tuve el tiempo suficiente para completarlos todo por el trabajo que actualmente tengo y otros inconvenientes.
-
-
-
-
 
 
 
